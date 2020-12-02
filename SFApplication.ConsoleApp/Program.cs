@@ -27,6 +27,8 @@ namespace SFApplication.ConsoleApp
             Console.WriteLine($"My age is {MyAge}");
             Console.WriteLine($"Do I have a pet? {HavePet}");
             Console.WriteLine($"My shoe size is {shoeSize}");
+            Console.WriteLine(int.MinValue);
+            Console.WriteLine(int.MaxValue);
 
             Console.ReadKey();
 
