@@ -14,6 +14,7 @@ namespace SFApplication.ConsoleApp
             Console.WriteLine($"Введите дату ващего рождения");
             var birthday = Console.ReadLine();
             Console.WriteLine($"Ваша дата {birthday}");
+            Console.ReadLine();
         }
     }
 }
