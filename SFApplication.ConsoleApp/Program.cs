@@ -6,22 +6,30 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Как вас зовут?");
-            string name = Console.ReadLine();
+            Console.WriteLine("Напишите свой любимый цвет на английском с маленькой буквы");
 
-            Console.WriteLine("Какая ваша фамилия?");
-            string surname = Console.ReadLine();
-           
+            var color = Console.ReadLine();
 
-            Console.WriteLine($"Какой ваш возраст {name}");
-            string age = Console.ReadLine();
-            Greet(name, age);
+            if (color == "red")
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("Твой цвет красный");
+            }
+            else if (color == "green")
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("Твой цвет зеленый");
+            }
+            else
+            {
+                Console.BackgroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("Твой цвет бюрюзовый");
+            }
+            Console.ReadLine();
         }
-
-        static void Greet(string name, string age)
-        {
-            Console.WriteLine($"Здравствуйте, {name}");
-            Console.WriteLine($"Ваш возраст {age}");
-        }
+        
     }
 }
