@@ -6,13 +6,20 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("do while break");
             Console.WriteLine("Напишите свой любимый цвет на английском с маленькой буквы");
 
-            Console.WriteLine("do while");
             int k = 0;
             do
             {
-                switch (Console.ReadLine().Trim().ToLower())
+                var text = Console.ReadLine();
+                if (text == "stop")
+                {
+                    Console.WriteLine("Stop");
+                    break;
+                }
+
+                switch (text.Trim().ToLower())
                 {
                     case "red":
                         Console.BackgroundColor = ConsoleColor.Red;
@@ -42,7 +49,7 @@ namespace SFApplication.ConsoleApp
                 }
                 k++;
 
-            } while (k < 3);
+            } while (k < 10);
         }
     }
 }
