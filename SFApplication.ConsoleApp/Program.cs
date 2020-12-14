@@ -6,6 +6,10 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
+            (string name, int age) = ("Alexy", 33);
+
+            Console.WriteLine($"Имя {name}, возраст {age}");
+
             (string name, int age) anketa;
             Console.WriteLine("Введите Имя");
             anketa.name = Console.ReadLine();
