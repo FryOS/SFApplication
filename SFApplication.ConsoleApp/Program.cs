@@ -6,12 +6,18 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите свое имя");
-            var name = Console.ReadLine();
-            for (int i = 1; i < name.Length+1; i++)
-            {
-                Console.WriteLine(name[name.Length - i] );
-            }
+            (string name, int age) anketa;
+            Console.WriteLine("Введите Имя");
+            anketa.name = Console.ReadLine();
+
+            Console.WriteLine("Введите Возраст");
+            anketa.age =  Convert.ToInt32( Console.ReadLine() );
+
+            Console.WriteLine($"Имя {anketa.name}, возраст {anketa.age}");
+
+            Console.ReadKey();
+
+
         }
     }
 }
