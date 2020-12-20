@@ -6,22 +6,57 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Как вас зовут?");
-            string name = Console.ReadLine();
+            for (int i = 0; i < 3; i++)
+            {
+                (string Name, string LastName, string Login, int LoginLength, bool HasPet, string[] FavColors, double Age) User;
+                Console.WriteLine("Введите Ваше имя");
+                User.Name = Console.ReadLine();
 
-            Console.WriteLine("Какая ваша фамилия?");
-            string surname = Console.ReadLine();
-           
+                Console.WriteLine("Введите Вашу фамилию");
+                User.LastName = Console.ReadLine();
 
-            Console.WriteLine($"Какой ваш возраст {name}");
-            string age = Console.ReadLine();
-            Greet(name, age);
-        }
+                Console.WriteLine("Введите Ваш логин");
+                User.Login = Console.ReadLine();
 
-        static void Greet(string name, string age)
-        {
-            Console.WriteLine($"Здравствуйте, {name}");
-            Console.WriteLine($"Ваш возраст {age}");
+                User.LoginLength = User.Login.Length;
+
+                Console.WriteLine("Есть ли у вас животное: Да или Нет?");
+                var result = Console.ReadLine().ToLower();
+                if (result == "Да".ToLower() || result == "Yes".ToLower())
+                    User.HasPet = true;
+                else
+                    User.HasPet = false;
+
+                Console.WriteLine("Ваши любимые цвета?");
+                User.FavColors = new string[3];
+
+                for (int y = 0; y < User.FavColors.Length; y++)
+                {
+                    var favColor = Console.ReadLine();
+                    User.FavColors[y] = favColor;
+                }
+
+                Console.WriteLine("Введите ваш возраст");
+                User.Age = Convert.ToDouble(Console.ReadLine());
+
+                Console.WriteLine($"Ваше имя {User.Name}");
+                Console.WriteLine($"Ваша фамилия {User.LastName}");
+                Console.WriteLine($"Ваш логин {User.Login}");
+                Console.WriteLine($"Колличество символом в логине {User.LoginLength}");
+                
+                if(User.HasPet)
+                    Console.WriteLine($"Питомец есть");
+                else
+                    Console.WriteLine($"Питомца нет");
+
+                Console.WriteLine($"Любимые цвета:");
+                foreach (var item in User.FavColors)
+                {
+                    Console.WriteLine($"{item}");
+                }
+                Console.WriteLine($"Ваш возраст {User.Age}");
+            }
+            Console.ReadKey();
         }
     }
 }
