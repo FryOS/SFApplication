@@ -6,57 +6,72 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Цикл for");
+
             for (int i = 0; i < 3; i++)
             {
-                (string Name, string LastName, string Login, int LoginLength, bool HasPet, string[] FavColors, double Age) User;
-                Console.WriteLine("Введите Ваше имя");
-                User.Name = Console.ReadLine();
-
-                Console.WriteLine("Введите Вашу фамилию");
-                User.LastName = Console.ReadLine();
-
-                Console.WriteLine("Введите Ваш логин");
-                User.Login = Console.ReadLine();
-
-                User.LoginLength = User.Login.Length;
-
-                Console.WriteLine("Есть ли у вас животное: Да или Нет?");
-                var result = Console.ReadLine().ToLower();
-                if (result == "Да".ToLower() || result == "Yes".ToLower())
-                    User.HasPet = true;
-                else
-                    User.HasPet = false;
-
-                Console.WriteLine("Ваши любимые цвета?");
-                User.FavColors = new string[3];
-
-                for (int y = 0; y < User.FavColors.Length; y++)
-                {
-                    var favColor = Console.ReadLine();
-                    User.FavColors[y] = favColor;
-                }
-
-                Console.WriteLine("Введите ваш возраст");
-                User.Age = Convert.ToDouble(Console.ReadLine());
-
-                Console.WriteLine($"Ваше имя {User.Name}");
-                Console.WriteLine($"Ваша фамилия {User.LastName}");
-                Console.WriteLine($"Ваш логин {User.Login}");
-                Console.WriteLine($"Колличество символом в логине {User.LoginLength}");
-                
-                if(User.HasPet)
-                    Console.WriteLine($"Питомец есть");
-                else
-                    Console.WriteLine($"Питомца нет");
-
-                Console.WriteLine($"Любимые цвета:");
-                foreach (var item in User.FavColors)
-                {
-                    Console.WriteLine($"{item}");
-                }
-                Console.WriteLine($"Ваш возраст {User.Age}");
+                Console.WriteLine(i);
+                ShowColor();
             }
+
+            Console.WriteLine("Цикл while");
+            int k = 0;
+            while (k < 3)
+            {
+                Console.WriteLine(k);
+
+                ShowColor();
+            }
+
+            Console.WriteLine("Цикл do");
+            int t = 0;
+
+            do
+            {
+                Console.WriteLine(t);
+
+                ShowColor();
+
+            } while (t < 3);
+
             Console.ReadKey();
+        }
+
+        private static void ShowColor()
+        {
+            Console.WriteLine("Напишите свой любимый цвет на английском с маленькой буквы");
+            var color = Console.ReadLine();
+
+            #region switch
+            switch (color)            
+            {
+                case "red":
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Black;
+
+                    Console.WriteLine("Your color is red!");
+                    break;
+
+                case "green":
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
+
+                    Console.WriteLine("Your color is green!");
+                    break;
+                case "cyan":
+                    Console.BackgroundColor = ConsoleColor.Cyan;
+                    Console.ForegroundColor = ConsoleColor.Black;
+
+                    Console.WriteLine("Your color is cyan!");
+                    break;
+                default:
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Red;
+
+                    Console.WriteLine("Your color is yellow!");
+                    break;
+            }
+            #endregion
         }
     }
 }
