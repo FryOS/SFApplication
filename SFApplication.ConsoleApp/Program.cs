@@ -6,15 +6,24 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            int[] arr = GetArrayFromConsole();
-            SortArray(arr);
-            WriteArray(arr);
+            //int[] arr = GetArrayFromConsole();
+            //arr = SortArray(arr);
+            //WriteArray(arr);
+            
+
+            int myage = 11;
+
+            Console.WriteLine(myage);
+            ChangeAge(ref myage);
+            Console.WriteLine(myage);
             Console.ReadKey();
+
+
         }
 
-        static int[] GetArrayFromConsole()
+        static int[] GetArrayFromConsole(ref int range)
         {
-            var result = new int[5];
+            var result = new int[range];
 
             for (int i = 0; i < result.Length; i++)
             {
@@ -25,7 +34,7 @@ namespace SFApplication.ConsoleApp
             return result;
         }
 
-        static void SortArray(int[] array)
+        static int[] SortArray(int[] array)
         {
             int temp = 0;
             for (int i = 0; i < array.Length; i++)
@@ -40,6 +49,7 @@ namespace SFApplication.ConsoleApp
                     }
                 }
             }
+            return array;
         }
 
         static void WriteArray(int[] arr)
@@ -50,5 +60,16 @@ namespace SFApplication.ConsoleApp
                 Console.Write($"{arr[i]}\t");
             }
         }
+
+        static void ChangeAge(ref int age)
+        {
+            Console.WriteLine("Введите возраст");
+            age = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine(age);
+        }
+
+       
+       // int SumNumbers(ref int num1, in int num2, out int num3, int num4)
+
     }
 }
