@@ -6,119 +6,32 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            int range = 5;
-            int[] arr = GetArrayFromConsole(range);
-            int[] asc;
-            int[] desc;
+            Console.WriteLine("Напишите что-то");
+            var str = Console.ReadLine();
 
-            SortArray(arr, out desc, out asc);
-            WriteArray(desc);
-            WriteArray(asc);
+            Console.WriteLine("Укажите глубину эха");
+            var deep = int.Parse(Console.ReadLine());
+
+            Echo(str, deep);
 
             Console.ReadKey();
-
-
-            //int myage = 11;
-            //Console.WriteLine(myage);
-            //ChangeAge(ref myage);
-            //Console.WriteLine(myage);
-         
-
-
         }
 
-        static int[] GetArrayFromConsole(int range)
+        static void Echo(string phrase, int deep)
         {
-            var result = new int[range];
-
-            for (int i = 0; i < result.Length; i++)
+            var modif = phrase;
+            
+            if (modif.Length > 2)
             {
-                Console.WriteLine("Введите элемент массива номер {0}", i + 1);
-                result[i] = int.Parse(Console.ReadLine());
+                modif = modif.Remove(0, 2);
             }
+            Console.BackgroundColor = (ConsoleColor)deep;
+            Console.WriteLine("..." + deep);
 
-            return result;
-        }
-
-        static int[] SortArray(int[] array)
-        {
-            int temp = 0;
-            for (int i = 0; i < array.Length; i++)
+            if (deep > 1)
             {
-                for (int u = 0; u < array.Length; u++)
-                {
-                    if (array[i] < array[u])
-                    {
-                        temp = array[i];
-                        array[i] = array[u];
-                        array[u] = temp;
-                    }
-                }
-            }
-            return array;
-        }
-
-        static void SortArray(in int[] array, out int[] sorteddesc, out int[] sortedasc)
-        {
-            sorteddesc = SortArrayDesc(array);
-            sortedasc = SortArrayAsc(array);
-        }
-
-
-        static int[] SortArrayDesc(int[] array)
-        {
-            int temp = 0;
-            for (int i = 0; i < array.Length; i++)
-            {
-                for (int u = 0; u < array.Length; u++)
-                {
-                    if (array[i] > array[u])
-                    {
-                        temp = array[i];
-                        array[i] = array[u];
-                        array[u] = temp;
-                    }
-                }
-            }
-            return array;
-        }
-        static int[] SortArrayAsc(int[] array)
-        {
-            int temp = 0;
-            for (int i = 0; i < array.Length; i++)
-            {
-                for (int u = 0; u < array.Length; u++)
-                {
-                    if (array[i] < array[u])
-                    {
-                        temp = array[i];
-                        array[i] = array[u];
-                        array[u] = temp;
-                    }
-                }
-            }
-            return array;
-        }
-
-
-        static void WriteArray(int[] arr)
-        {
-            Console.WriteLine("\nВаши числа\n");
-            for (int i = 0; i < arr.Length; i++)
-            {
-                Console.Write($"{arr[i]}\t");
+                Echo(phrase, deep - 1);
             }
         }
-
-        static void ChangeAge(ref int age)
-        {
-            Console.WriteLine("Введите возраст");
-            age = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine(age);
-        }
-
-       
-       // int SumNumbers(ref int num1, in int num2, out int num3, int num4)
-
     }
 }
