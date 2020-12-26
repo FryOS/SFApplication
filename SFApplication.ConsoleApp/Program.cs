@@ -6,22 +6,28 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            //int[] arr = GetArrayFromConsole();
-            //arr = SortArray(arr);
-            //WriteArray(arr);
-            
+            int range = 5;
+            int[] arr = GetArrayFromConsole(range);
+            int[] asc;
+            int[] desc;
 
-            int myage = 11;
+            SortArray(arr, out desc, out asc);
+            WriteArray(desc);
+            WriteArray(asc);
 
-            Console.WriteLine(myage);
-            ChangeAge(ref myage);
-            Console.WriteLine(myage);
             Console.ReadKey();
+
+
+            //int myage = 11;
+            //Console.WriteLine(myage);
+            //ChangeAge(ref myage);
+            //Console.WriteLine(myage);
+         
 
 
         }
 
-        static int[] GetArrayFromConsole(ref int range)
+        static int[] GetArrayFromConsole(int range)
         {
             var result = new int[range];
 
@@ -52,9 +58,52 @@ namespace SFApplication.ConsoleApp
             return array;
         }
 
+        static void SortArray(in int[] array, out int[] sorteddesc, out int[] sortedasc)
+        {
+            sorteddesc = SortArrayDesc(array);
+            sortedasc = SortArrayAsc(array);
+        }
+
+
+        static int[] SortArrayDesc(int[] array)
+        {
+            int temp = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                for (int u = 0; u < array.Length; u++)
+                {
+                    if (array[i] > array[u])
+                    {
+                        temp = array[i];
+                        array[i] = array[u];
+                        array[u] = temp;
+                    }
+                }
+            }
+            return array;
+        }
+        static int[] SortArrayAsc(int[] array)
+        {
+            int temp = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                for (int u = 0; u < array.Length; u++)
+                {
+                    if (array[i] < array[u])
+                    {
+                        temp = array[i];
+                        array[i] = array[u];
+                        array[u] = temp;
+                    }
+                }
+            }
+            return array;
+        }
+
+
         static void WriteArray(int[] arr)
         {
-            Console.WriteLine("Ваши числа");
+            Console.WriteLine("\nВаши числа\n");
             for (int i = 0; i < arr.Length; i++)
             {
                 Console.Write($"{arr[i]}\t");
