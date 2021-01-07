@@ -6,18 +6,16 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            ShowUser();
+            
+            
+            //ShowUser();
 
             Console.ReadKey();
         }
 
         static (string Name, string LastName, bool HasPet, string[] FavColors, double Age) EnterUser()
         {
-            (string Name,
-            string LastName,
-            bool HasPet,
-            string[] FavColors,
-            double Age) User;
+            (string Name, string LastName, bool HasPet, string[] FavColors, double Age) User;
 
             Console.WriteLine("Enter your Name");
             User.Name = Console.ReadLine();
@@ -46,15 +44,17 @@ namespace SFApplication.ConsoleApp
                 //Console.WriteLine("Сколько питомцев?");
                 string numPet;
                 int intNumPet = 0;
+                
                 do
                 {
                     Console.WriteLine("А Сколько питомцев?");
                     numPet = Console.ReadLine();
 
 
-                } while (!CheckNum(numPet, out intNumPet));
-                GetNamePet(intNumPet);
-            } 
+                }while (!CheckNum(numPet, out intNumPet));
+            }
+            
+
             else if (result == "Нет".ToLower() || result == "No".ToLower())
             {
                 Console.WriteLine("Жалко что у вас нет питомца");
@@ -70,8 +70,6 @@ namespace SFApplication.ConsoleApp
             {
                 Console.WriteLine("Какое количество ваших любимых цветов?");
                 numCol = Console.ReadLine();
-
-
             } while (!CheckNum(numCol, out range));
 
             User.FavColors = new string[range];
@@ -119,8 +117,6 @@ namespace SFApplication.ConsoleApp
             Console.WriteLine($"Ваша фамилия {User.LastName}");
             Console.WriteLine($"Ваш возраст {User.Age}");            
             Console.WriteLine($"У вас есть питомец {User.HasPet}");
-
-            
         }
     }
 }
