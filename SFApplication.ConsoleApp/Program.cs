@@ -23,7 +23,11 @@ namespace SFApplication.ConsoleApp
                     Console.WriteLine($"\tМетка: {drive.VolumeLabel}");
                 }
             }
-
+            Console.WriteLine("-------------------------------------");
+            GetCatalogs();
+            Console.WriteLine("-------------------------------------");
+            int a = GetValueDirFiles();
+            Console.WriteLine(a);
             Console.ReadLine();
         }
 
@@ -32,6 +36,42 @@ namespace SFApplication.ConsoleApp
             KB = 1024,
             MB = 1048576,
             GD = 1073741824
+        }
+
+        static int GetValueDirFiles()
+        {
+            int value = 0;
+            string dirName = @"/"; // 
+            if (Directory.Exists(dirName))
+            {
+                string[] dirs = Directory.GetDirectories(dirName);
+                string[] files = Directory.GetFiles(dirName);
+                var valueDir = dirs.Length;
+                var valueFiles = files.Length;
+                value = valueDir + valueFiles;
+                return value;
+            }
+            return value;
+        }
+
+        static void GetCatalogs()
+        {
+            string dirName = @"/"; // Прописываем путь к корневой директории MacOS (для Windows скорее всего тут будет "C:\\")
+            if (Directory.Exists(dirName)) // Проверим, что директория существует
+            {
+                Console.WriteLine("\tПапки:");
+                string[] dirs = Directory.GetDirectories(dirName);  // Получим все директории корневого каталога
+
+                foreach (string d in dirs) // Выведем их все
+                    Console.WriteLine(d);
+
+                Console.WriteLine();
+                Console.WriteLine("\tФайлы:");
+                string[] files = Directory.GetFiles(dirName);// Получим все файлы корневого каталога
+
+                foreach (string s in files)   // Выведем их все
+                    Console.WriteLine(s);
+            }
         }
 
         class Drive
@@ -60,12 +100,7 @@ namespace SFApplication.ConsoleApp
             }
         }
 
-        enum  GBValues 
-        {
-            KB = 1024,
-            MB = 1048576,
-            GD = 1073741824
-        }
+        
     }
 }
 
