@@ -6,122 +6,51 @@ namespace SFApplication.ConsoleApp
 {
     class Program
     {
+        const string SettingsFileName = @"C:/Users/Alexey/source/repos/SFApplication/SFApplication.ConsoleApp/BinaryFile.bin";
+
         static void Main(string[] args)
         {
-            var fileInfo = new FileInfo(@"C:/Users/Alexey/source/repos/SFApplication/SFApplication.ConsoleApp/Program.cs");
+            // Пишем
+            //WriteValues();
+            // Считываем
+            ReadValues();
 
-            using (StreamWriter sw = fileInfo.AppendText())
-            {
-                sw.WriteLine($"// Время запуска: {DateTime.Now}");
-            }
 
-            using (StreamReader sr = fileInfo.OpenText())
-            {
-                string str = "";
-                while ((str = sr.ReadLine()) != null)
-                    Console.WriteLine(str);
-
-            }
+            Console.ReadLine();
         }
 
-        enum GBValues
+        static void WriteValues()
         {
-            KB = 1024,
-            MB = 1048576,
-            GD = 1073741824
-        }
-
-        static int GetValueDirFiles()
-        {
-            int value = 0;
-            string dirName = @"/"; // 
-            if (Directory.Exists(dirName))
+            // Создаем объект BinaryWriter и указываем, куда будет направлен поток данных
+            using (BinaryWriter writer = new BinaryWriter(File.Open(SettingsFileName, FileMode.Create)))
             {
-                string[] dirs = Directory.GetDirectories(dirName);
-                string[] files = Directory.GetFiles(dirName);
-                var valueDir = dirs.Length;
-                var valueFiles = files.Length;
-                value = valueDir + valueFiles;
-                return value;
-            }
-            return value;
-        }
-
-        static void GetCatalogs()
-        {
-            string dirName = @"/"; // Прописываем путь к корневой директории MacOS (для Windows скорее всего тут будет "C:\\")
-            if (Directory.Exists(dirName)) // Проверим, что директория существует
-            {
-                Console.WriteLine("\tПапки:");
-                string[] dirs = Directory.GetDirectories(dirName);  // Получим все директории корневого каталога
-
-                foreach (string d in dirs) // Выведем их все
-                    Console.WriteLine(d);
-
-                Console.WriteLine();
-                Console.WriteLine("\tФайлы:");
-                string[] files = Directory.GetFiles(dirName);// Получим все файлы корневого каталога
-
-                foreach (string s in files)   // Выведем их все
-                    Console.WriteLine(s);
+                // записываем данные в разном формате
+                writer.Write(20.666F);
+                writer.Write(@"Тестовая строка");
+                writer.Write(55);
+                writer.Write(false);
             }
         }
 
-        static void ReadFile()
+        static void ReadValues()
         {
-            string filePath = @"C:/Users/Alexey/source/repos/SFApplication/SFApplication.ConsoleApp/Program.cs";
-            // Укажем путь 
-            if (File.Exists(filePath)) // Проверим, существует ли файл по данному пути
+            float FloatValue;
+            string StringValue;
+            int IntValue;
+            bool BooleanValue;
+
+            if (File.Exists(SettingsFileName))
             {
-                var time = DateTime.Now;
-                FileInfo fi = new FileInfo(@"C:/Users/Alexey/source/repos/SFApplication/SFApplication.ConsoleApp/Program.cs");
-                using (StreamWriter sw = fi.AppendText())
+                // Создаем объект BinaryReader и инициализируем его возвратом метода File.Open.
+                using (BinaryReader reader = new BinaryReader(File.Open(SettingsFileName, FileMode.Open)))
                 {
-                    sw.WriteLine("//" + time);
+                   StringValue = reader.ReadString();
                 }
 
-                using (StreamReader sr = File.OpenText(filePath))
-                {
-                    string str = "";
-                    while ((str = sr.ReadLine()) != null) // Пока не кончатся строки - считываем из файла по одной и выводим в консоль
-                    {
-                        Console.WriteLine(str);
-                    }
-                }
+                Console.WriteLine("Из файла считано:");
+                Console.WriteLine("Строка: " + StringValue);
+                
             }
         }
-
-        class Drive
-        {
-            public Drive(string nameDisk, long totalSpaceDisk, long emptySpaceDisk)
-            {
-                this.nameDisk = nameDisk;
-                this.totalSpaceDisk = totalSpaceDisk;
-                this.emptySpaceDisk = emptySpaceDisk;
-            }
-
-            public string nameDisk;
-            public long totalSpaceDisk;
-            public long emptySpaceDisk;
-        }
-
-        public class Folder
-        {
-            public List<string> Files { get; set; } = new List<string>();
-
-            Dictionary<string, Folder> Folders = new Dictionary<string, Folder>();
-
-            public void CreateFolder(string name)
-            {
-                Folders.Add(name, new Folder());
-            }
-        }
-
-        
     }
 }
-
-
-//17.01.2021 18:42:28
-//17.01.2021 18:42:38
-// Время запуска: 17.01.2021 18:44:56
