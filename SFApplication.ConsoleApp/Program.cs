@@ -25,10 +25,7 @@ namespace SFApplication.ConsoleApp
             using (BinaryWriter writer = new BinaryWriter(File.Open(SettingsFileName, FileMode.Create)))
             {
                 // записываем данные в разном формате
-                writer.Write(20.666F);
-                writer.Write(@"Тестовая строка");
-                writer.Write(55);
-                writer.Write(false);
+                writer.Write($"Файл изменен {DateTime.Now} на компьютере c ОС {Environment.OSVersion}");
             }
         }
 
