@@ -8,26 +8,29 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            // получим системные диски
-            DriveInfo[] drives = DriveInfo.GetDrives();
+            //// получим системные диски
+            //DriveInfo[] drives = DriveInfo.GetDrives();
             
-            // Пробежимся по дискам и выведем их свойства
-            foreach (DriveInfo drive in drives)
-            {
-                Console.WriteLine($"Название: {drive.Name}");
-                Console.WriteLine($"Тип: {drive.DriveType}");
-                if (drive.IsReady)
-                {
-                    Console.WriteLine($"\tОбъем: {drive.TotalSize / (long)GBValues.GD} GB"); 
-                    Console.WriteLine($"\tСвободно: {drive.TotalFreeSpace/ (long)GBValues.GD} GB");
-                    Console.WriteLine($"\tМетка: {drive.VolumeLabel}");
-                }
-            }
+            //// Пробежимся по дискам и выведем их свойства
+            //foreach (DriveInfo drive in drives)
+            //{
+            //    Console.WriteLine($"Название: {drive.Name}");
+            //    Console.WriteLine($"Тип: {drive.DriveType}");
+            //    if (drive.IsReady)
+            //    {
+            //        Console.WriteLine($"\tОбъем: {drive.TotalSize / (long)GBValues.GD} GB"); 
+            //        Console.WriteLine($"\tСвободно: {drive.TotalFreeSpace/ (long)GBValues.GD} GB");
+            //        Console.WriteLine($"\tМетка: {drive.VolumeLabel}");
+            //    }
+            //}
+            //Console.WriteLine("-------------------------------------");
+            //GetCatalogs();
+            //Console.WriteLine("-------------------------------------");
+            //int a = GetValueDirFiles();
+            //Console.WriteLine(a);
+
             Console.WriteLine("-------------------------------------");
-            GetCatalogs();
-            Console.WriteLine("-------------------------------------");
-            int a = GetValueDirFiles();
-            Console.WriteLine(a);
+            ReadFile();
             Console.ReadLine();
         }
 
@@ -74,6 +77,30 @@ namespace SFApplication.ConsoleApp
             }
         }
 
+        static void ReadFile()
+        {
+            string filePath = @"C:/Users/Alexey/source/repos/SFApplication/SFApplication.ConsoleApp/Program.cs";
+            // Укажем путь 
+            if (File.Exists(filePath)) // Проверим, существует ли файл по данному пути
+            {
+                var time = DateTime.Now;
+                FileInfo fi = new FileInfo(@"C:/Users/Alexey/source/repos/SFApplication/SFApplication.ConsoleApp/Program.cs");
+                using (StreamWriter sw = fi.AppendText())
+                {
+                    sw.WriteLine("//" + time);
+                }
+
+                using (StreamReader sr = File.OpenText(filePath))
+                {
+                    string str = "";
+                    while ((str = sr.ReadLine()) != null) // Пока не кончатся строки - считываем из файла по одной и выводим в консоль
+                    {
+                        Console.WriteLine(str);
+                    }
+                }
+            }
+        }
+
         class Drive
         {
             public Drive(string nameDisk, long totalSpaceDisk, long emptySpaceDisk)
@@ -104,3 +131,6 @@ namespace SFApplication.ConsoleApp
     }
 }
 
+
+//17.01.2021 18:42:28
+//17.01.2021 18:42:38
