@@ -8,30 +8,20 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            //// получим системные диски
-            //DriveInfo[] drives = DriveInfo.GetDrives();
-            
-            //// Пробежимся по дискам и выведем их свойства
-            //foreach (DriveInfo drive in drives)
-            //{
-            //    Console.WriteLine($"Название: {drive.Name}");
-            //    Console.WriteLine($"Тип: {drive.DriveType}");
-            //    if (drive.IsReady)
-            //    {
-            //        Console.WriteLine($"\tОбъем: {drive.TotalSize / (long)GBValues.GD} GB"); 
-            //        Console.WriteLine($"\tСвободно: {drive.TotalFreeSpace/ (long)GBValues.GD} GB");
-            //        Console.WriteLine($"\tМетка: {drive.VolumeLabel}");
-            //    }
-            //}
-            //Console.WriteLine("-------------------------------------");
-            //GetCatalogs();
-            //Console.WriteLine("-------------------------------------");
-            //int a = GetValueDirFiles();
-            //Console.WriteLine(a);
+            var fileInfo = new FileInfo(@"C:/Users/Alexey/source/repos/SFApplication/SFApplication.ConsoleApp/Program.cs");
 
-            Console.WriteLine("-------------------------------------");
-            ReadFile();
-            Console.ReadLine();
+            using (StreamWriter sw = fileInfo.AppendText())
+            {
+                sw.WriteLine($"// Время запуска: {DateTime.Now}");
+            }
+
+            using (StreamReader sr = fileInfo.OpenText())
+            {
+                string str = "";
+                while ((str = sr.ReadLine()) != null)
+                    Console.WriteLine(str);
+
+            }
         }
 
         enum GBValues
@@ -134,3 +124,4 @@ namespace SFApplication.ConsoleApp
 
 //17.01.2021 18:42:28
 //17.01.2021 18:42:38
+// Время запуска: 17.01.2021 18:44:56
