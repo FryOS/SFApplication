@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SFApplication.ConsoleApp
 {
@@ -10,44 +11,33 @@ namespace SFApplication.ConsoleApp
 
         static void Main(string[] args)
         {
-            // Пишем
-            //WriteValues();
-            // Считываем
-            ReadValues();
+            // создание объекта класса
+            var contact = new Contact("Евгений", 79991234567, "example@example.com");
 
+            // сериализация
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (var fs = new FileStream("Contact.bin", FileMode.OpenOrCreate))
+            {
+                formatter.Serialize(fs, contact);
+            }
 
             Console.ReadLine();
         }
-
-        static void WriteValues()
+        [Serializable]
+        class Contact
         {
-            // Создаем объект BinaryWriter и указываем, куда будет направлен поток данных
-            using (BinaryWriter writer = new BinaryWriter(File.Open(SettingsFileName, FileMode.Create)))
+            public string Name { get; set; }
+            public long PhoneNumber { get; set; }
+            public string Email { get; set; }
+
+            public Contact(string name, long phoneNumber, string email)
             {
-                // записываем данные в разном формате
-                writer.Write($"Файл изменен {DateTime.Now} на компьютере c ОС {Environment.OSVersion}");
+                Name = name;
+                PhoneNumber = phoneNumber;
+                Email = email;
             }
         }
 
-        static void ReadValues()
-        {
-            float FloatValue;
-            string StringValue;
-            int IntValue;
-            bool BooleanValue;
 
-            if (File.Exists(SettingsFileName))
-            {
-                // Создаем объект BinaryReader и инициализируем его возвратом метода File.Open.
-                using (BinaryReader reader = new BinaryReader(File.Open(SettingsFileName, FileMode.Open)))
-                {
-                   StringValue = reader.ReadString();
-                }
-
-                Console.WriteLine("Из файла считано:");
-                Console.WriteLine("Строка: " + StringValue);
-                
-            }
-        }
     }
 }
