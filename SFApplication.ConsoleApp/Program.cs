@@ -1,43 +1,89 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SFApplication.ConsoleApp
 {
     class Program
     {
-        const string SettingsFileName = @"C:/Users/Alexey/source/repos/SFApplication/SFApplication.ConsoleApp/BinaryFile.bin";
+        const string PathTest = @"C:\Users\Alexey\source\repos\SFApplication\ToDel";
+        const int MINUTES = 30;
 
         static void Main(string[] args)
         {
-            // создание объекта класса
-            var contact = new Contact("Евгений", 79991234567, "example@example.com");
+            Console.WriteLine("Введите путь до папки");
+            var path =  Console.ReadLine();
 
-            // сериализация
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (var fs = new FileStream("Contact.bin", FileMode.OpenOrCreate))
+            if (IsItemsExists(path))
             {
-                formatter.Serialize(fs, contact);
+                DeleteFolderFiles(path);
             }
-
-            Console.ReadLine();
+            
         }
-        [Serializable]
-        class Contact
+
+        static bool IsItemsExists(string path)
         {
-            public string Name { get; set; }
-            public long PhoneNumber { get; set; }
-            public string Email { get; set; }
-
-            public Contact(string name, long phoneNumber, string email)
+            if (Directory.Exists(path))
             {
-                Name = name;
-                PhoneNumber = phoneNumber;
-                Email = email;
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+
+                var folders = dirInfo.GetDirectories();
+                var files = dirInfo.GetFiles();
+                if (folders.Length == 0 && files.Length == 0)
+                {
+                    Console.WriteLine("Элементы не найдены");
+                    return false;
+                }
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Указанный путь не найден");
+                return false;
             }
         }
 
+        static void DeleteFolderFiles(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+
+                var folders = dirInfo.GetDirectories();
+                var files = dirInfo.GetFiles();
+                try
+                {
+                    foreach (var item in files)
+                    {
+                        if (item.LastAccessTime + TimeSpan.FromMinutes(MINUTES) < DateTime.Now)
+                        {
+                            item.Delete();
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Произошла ошибка: " + ex.Message);
+                }
+
+                try
+                {
+                    foreach (var item in folders)
+                    {
+                        if (item.LastAccessTime + TimeSpan.FromMinutes(MINUTES) < DateTime.Now)
+                        {
+                            item.Delete(true);
+                            Console.WriteLine($"{item} Удален");
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Произошла ошибка: " + ex.Message);
+                }
+            }
+        }
 
     }
 }
