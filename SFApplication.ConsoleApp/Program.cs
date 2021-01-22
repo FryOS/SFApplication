@@ -11,15 +11,84 @@ namespace SFApplication.ConsoleApp
         {
             Console.WriteLine("Введите директорию");
             var path = Console.ReadLine();
-            var TotalSize = GetFolderSize(path);
-            Console.WriteLine($"{TotalSize} байт");
-            Console.WriteLine($"{TotalSize / Math.Pow(1024, 1):f2} KB");
-            Console.WriteLine($"{TotalSize / Math.Pow(1024, 2)} MB");
-            
-            Console.ReadLine();
 
+            if (IsItemsExists(path))
+            {
+                var size = GetFolderSize(path);
+                Console.WriteLine($"Исходный размер папки {size}");
+                DeleteFolderFiles(path);
+                var sizeAfterDelete = GetFolderSize(path);
+                Console.WriteLine($"Освобождено: {size}") ;
+                Console.WriteLine($"Текущий размер папки: {sizeAfterDelete}");
+            }
+                        
+            Console.ReadLine();
         }
 
+        static bool IsItemsExists(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+
+                var folders = dirInfo.GetDirectories();
+                var files = dirInfo.GetFiles();
+                if (folders.Length == 0 && files.Length == 0)
+                {
+                    Console.WriteLine("Элементы не найдены");
+                    return false;
+                }
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Указанный путь не найден");
+                return false;
+            }
+        }
+
+        static void DeleteFolderFiles(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+
+                var folders = dirInfo.GetDirectories();
+                var files = dirInfo.GetFiles();
+                try
+                {
+                    foreach (var item in files)
+                    {
+                        if (item.LastAccessTime + TimeSpan.FromMinutes(0) < DateTime.Now)
+                        {
+                            item.Delete();
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Произошла ошибка: " + ex.Message);
+                }
+
+                try
+                {
+                    foreach (var item in folders)
+                    {
+                        if (item.LastAccessTime + TimeSpan.FromMinutes(0) < DateTime.Now)
+                        {
+                            item.Delete(true);
+                            Console.WriteLine($"{item} Удален");
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Произошла ошибка: " + ex.Message);
+                }
+            }
+        }
 
         static long GetFolderSize(string path)
         {
