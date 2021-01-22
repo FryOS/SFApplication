@@ -17,7 +17,6 @@ namespace SFApplication.ConsoleApp
             {
                 DeleteFolderFiles(path);
             }
-            
         }
 
         static bool IsItemsExists(string path)
