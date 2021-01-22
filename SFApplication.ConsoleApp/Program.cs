@@ -6,44 +6,24 @@ namespace SFApplication.ConsoleApp
     class Program
     {
         const string PathTest = @"C:\Users\Alexey\source\repos\SFApplication\ToDel";
-        const int MINUTES = 30;
-
+        
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите путь до папки");
-            var path =  Console.ReadLine();
-
-            if (IsItemsExists(path))
-            {
-                DeleteFolderFiles(path);
-            }
+            Console.WriteLine("Введите директорию");
+            var path = Console.ReadLine();
+            var TotalSize = GetFolderSize(path);
+            Console.WriteLine($"{TotalSize} байт");
+            Console.WriteLine($"{TotalSize / Math.Pow(1024, 1):f2} KB");
+            Console.WriteLine($"{TotalSize / Math.Pow(1024, 2)} MB");
             
+            Console.ReadLine();
+
         }
 
-        static bool IsItemsExists(string path)
-        {
-            if (Directory.Exists(path))
-            {
-                DirectoryInfo dirInfo = new DirectoryInfo(path);
 
-                var folders = dirInfo.GetDirectories();
-                var files = dirInfo.GetFiles();
-                if (folders.Length == 0 && files.Length == 0)
-                {
-                    Console.WriteLine("Элементы не найдены");
-                    return false;
-                }
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Указанный путь не найден");
-                return false;
-            }
-        }
-
-        static void DeleteFolderFiles(string path)
+        static long GetFolderSize(string path)
         {
+            long size = 0;
             if (Directory.Exists(path))
             {
                 DirectoryInfo dirInfo = new DirectoryInfo(path);
@@ -54,36 +34,31 @@ namespace SFApplication.ConsoleApp
                 {
                     foreach (var item in files)
                     {
-                        if (item.LastAccessTime + TimeSpan.FromMinutes(MINUTES) < DateTime.Now)
-                        {
-                            item.Delete();
-                        }
+                        size += item.Length;
                     }
-
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Произошла ошибка: " + ex.Message);
+
+                    Console.WriteLine(ex.Message);
                 }
 
                 try
                 {
-                    foreach (var item in folders)
+                    foreach (var item1 in folders)
                     {
-                        if (item.LastAccessTime + TimeSpan.FromMinutes(MINUTES) < DateTime.Now)
-                        {
-                            item.Delete(true);
-                            Console.WriteLine($"{item} Удален");
-                        }
-
+                        size += GetFolderSize(item1.FullName);
                     }
+                    
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Произошла ошибка: " + ex.Message);
-                }
-            }
-        }
 
+                    Console.WriteLine(ex.Message);
+                }
+                return size;
+            }
+            else return size;
+        }
     }
 }
