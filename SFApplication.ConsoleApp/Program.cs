@@ -12,13 +12,19 @@ namespace SFApplication.ConsoleApp
             return a - b;
         }
 
+        static int PlusDivision(int a, int b)
+        {
+            return a + b;
+        }
+
         static void Main(string[] args)
         {
 
             Sub sub = SubDivision;
+            sub += PlusDivision;
 
-            int a = sub.Invoke(5, 2);
-            Console.WriteLine(a);
+            int res =  sub.Invoke(3,3);
+            Console.WriteLine(res);
 
             Console.ReadLine();
 
