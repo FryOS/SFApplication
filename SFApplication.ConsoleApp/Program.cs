@@ -6,29 +6,44 @@ namespace SFApplication.ConsoleApp
 {
     class Program
     {
+        static int Division(int a, int b)
+        {
+            return a / b;
+        }
+
         static void Main(string[] args)
         {
-            const string Path = @"C:\Users\Alexey\source\repos\SFApplication\SFApplication.ConsoleApp\Students.dat";
-            var students = DeserializeClass.DeserializeMeth<Student>(Path);
-            Directory.CreateDirectory("D:\\StudentsOsp");
+            //Exception ex = new Exception("Мое исключение");
+            //ex.Data.Add("дата создания ошибки", DateTime.Now);
 
-            foreach (var s in students)
+            //Console.WriteLine(ex.Message);
+
+            //ex.HelpLink = "Я помогаю";
+
+            try
             {
-                if (!File.Exists($"D:\\StudentsOsp\\{s.Group}.txt"))
-                {
-                    using (StreamWriter sw = File.CreateText($"D:\\StudentsOsp\\{s.Group}.txt"))
-                    {
-                        sw.WriteLine("Имя:" + s.Name + " Дата рождения:" + s.DateOfBirth);
-                    }
-                }
-                else
-                {
-                    using (StreamWriter sw = File.AppendText(($"D:\\StudentsOsp\\{s.Group}.txt")))
-                    {
-                        sw.WriteLine("Имя:" + s.Name + " Дата рождения:" + s.DateOfBirth);
-                    }
-                }
+                int result = Division(7, 1);
+
+                Console.WriteLine(result);
             }
+
+            catch (Exception ex)
+            {
+                if (ex is DivideByZeroException) Console.WriteLine("На ноль делить нельзя!");
+                else Console.WriteLine("Произошла непредвиденная ошибка в приложении.");
+            }
+
+            finally
+            {
+                Console.WriteLine("Блок Finally сработал!");
+            }
+
+
+            Console.ReadLine();
+
         }
     }
+
+
+    
 }
