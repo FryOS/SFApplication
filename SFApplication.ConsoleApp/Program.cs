@@ -18,8 +18,15 @@ namespace SFApplication.ConsoleApp
             int resMinus = calcDelegate.Invoke(3, 3);
             Console.WriteLine(resMinus);
 
-            int res = calcDelegate.Invoke(3,3);
-            
+            calcDelegate -= Minus;
+
+            int reAfter = calcDelegate.Invoke(3, 3);
+            Console.WriteLine(reAfter);
+
+
+
+
+
             Console.ReadLine();
         }
 
