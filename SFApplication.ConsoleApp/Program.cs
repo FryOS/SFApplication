@@ -6,22 +6,25 @@ namespace SFApplication.ConsoleApp
 {
     class Program
     {
-        delegate void ShowMessageDelegate(string _message);
+        delegate int RandomNumberDelegate();
         static void Main(string[] args)
         {
-            ShowMessageDelegate showMessageDelegate = delegate (string str)
-            {
-                Console.WriteLine(str);
-            };
-             
-             
-            showMessageDelegate.Invoke("Hello World!");
+            var rand = new Random();
+            for (int i = 0; i < 15; i++)
+            {   
+                RandomNumberDelegate randomNumberDelegate = delegate ()
+                {
+                    return rand.Next(0,100);
+                };
+                int result = randomNumberDelegate.Invoke();
+                Console.WriteLine(result);
+
+            }
+            
+
             Console.Read();
         }
 
-        static void ShowMessage(string _message)
-        {
-            Console.WriteLine(_message);
-        }
+        
     }
 }
