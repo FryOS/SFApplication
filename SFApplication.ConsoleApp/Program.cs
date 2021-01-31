@@ -6,25 +6,33 @@ namespace SFApplication.ConsoleApp
 {
     class Program
     {
-        //delegate void ShowMessageDelegate(string _message);
-        //static void Main(string[] args)
-        //{
-        //    ShowMessageDelegate showMessageDelegate = (string mes) =>
-        //    {
-        //        Console.WriteLine(mes);
-        //    };
-        //    showMessageDelegate.Invoke("Hello World!");
-        //    Console.Read();
-        //}
+        public delegate Car DelHandler();
 
-            delegate int RandomNumberDelegate();
-            static void Main(string[] args)
-            {
-                RandomNumberDelegate randomNumberDelegate = () => { return new Random().Next(0, 100); };
-       
-                int result = randomNumberDelegate.Invoke();
-                Console.WriteLine(result);
-                Console.Read();
-            }
+        public static Car CarHandler()
+        {
+            return null;
+        }
+
+        public static Lexus LexusHandler()
+        {
+            return null;
+        }
+
+
+        static void Main(string[] args)
+        {
+            DelHandler delHandler = CarHandler;
+
+            Console.ReadLine();
+        }
+
+        private static void Method1()
+        {
+
+        }
+
     }
+
+    class Car { }
+    class Lexus : Car { }
 }
