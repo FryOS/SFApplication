@@ -6,41 +6,22 @@ namespace SFApplication.ConsoleApp
 {
     class Program
     {
-        public delegate int CalcDelegate(int a, int b);
-        
+        delegate void ShowMessageDelegate(string _message);
         static void Main(string[] args)
         {
-            CalcDelegate calcDelegate = Plus;
-            int resPlus = calcDelegate.Invoke(3, 3);
-            Console.WriteLine(resPlus);
-            
-            calcDelegate += Minus;
-            int resMinus = calcDelegate.Invoke(3, 3);
-            Console.WriteLine(resMinus);
-
-            calcDelegate -= Minus;
-
-            int reAfter = calcDelegate.Invoke(3, 3);
-            Console.WriteLine(reAfter);
-
-
-
-
-
-            Console.ReadLine();
+            ShowMessageDelegate showMessageDelegate = delegate (string str)
+            {
+                Console.WriteLine(str);
+            };
+             
+             
+            showMessageDelegate.Invoke("Hello World!");
+            Console.Read();
         }
 
-        static int Minus(int a, int b)
+        static void ShowMessage(string _message)
         {
-            return a - b;
-        }
-
-        static int Plus(int a, int b)
-        {
-            return a + b;
+            Console.WriteLine(_message);
         }
     }
-
-
-    
 }
