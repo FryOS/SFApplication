@@ -8,6 +8,19 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
+            IterationExeption.IterationExeptionMethod();
+
+
+
+            Console.ReadLine();
+        }
+    }
+
+
+    public static class IterationExeption
+    {
+        public static void IterationExeptionMethod()
+        {
             Exception[] exceptions = new Exception[]
             {
                     new ArgumentException(),
@@ -46,7 +59,6 @@ namespace SFApplication.ConsoleApp
                     ex.MyExeptionMethod();
                 }
             }
-            Console.ReadLine();
         }
     }
 
