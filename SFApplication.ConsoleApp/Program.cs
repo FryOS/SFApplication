@@ -4,40 +4,57 @@ using System.IO;
 
 namespace SFApplication.ConsoleApp
 {
-    public delegate void Notify(); //делегат
-    // класс Издатель(вызывает события)
-    public class ProcessLogic
-    {
-        public event Notify ProcessCompleted; //событие, метод обработчика события
-
-        public void StartProcess()
-        {
-            Console.WriteLine("Process Start");
-            OnProcessCompleted();
-        }
-
-        protected virtual void OnProcessCompleted()
-        {
-            ProcessCompleted?.Invoke();
-        }
-    }
-
-    //класс подписчик
     class Program
     {
         static void Main(string[] args)
         {
-            ProcessLogic processLogic = new ProcessLogic();
-            processLogic.ProcessCompleted += processLogic_ProcessCompleted; // регис-ем событие
-            processLogic.StartProcess();
+            Exception[] exceptions = new Exception[]
+            {
+                    new ArgumentException(),
+                    new OverflowException(),
+                    new DirectoryNotFoundException(),
+                    new DivideByZeroException(),
+                    new MyExeption()
 
+            };
+
+            for (int i = 0; i < exceptions.Length; i++)
+            {
+                try
+                {
+                    throw exceptions[i];
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message + "\n");
+
+                }
+                catch (OverflowException ex)
+                {
+                    Console.WriteLine(ex.Message + "\n");
+                }
+                catch (DirectoryNotFoundException ex)
+                {
+                    Console.WriteLine(ex.Message + "\n");
+                }
+                catch (DivideByZeroException ex)
+                {
+                    Console.WriteLine(ex.Message + "\n");
+                }
+                catch (MyExeption ex)
+                {
+                    ex.MyExeptionMethod();
+                }
+            }
             Console.ReadLine();
         }
+    }
 
-        //перехватчик события
-        private static void processLogic_ProcessCompleted()
+    class MyExeption : Exception
+    {
+        public void MyExeptionMethod()
         {
-            Console.WriteLine("Process is over");
+            Console.WriteLine("Мое исключение");
         }
     }
 
