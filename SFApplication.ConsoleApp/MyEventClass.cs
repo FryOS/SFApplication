@@ -6,40 +6,68 @@ using System.Threading.Tasks;
 
 namespace SFApplication.ConsoleApp
 {
-    public delegate void Notify(); //делегат
+    
     // класс Издатель(вызывает события)
-    public class ProcessLogic
+    public class SortLastNameReader
     {
-        public event Notify ProcessCompleted; //событие, метод обработчика события
+        public delegate void LastNameReaderDelegate(int number, string[] arr); //делегат
+        public event LastNameReaderDelegate LastNameReaderEvent; //событие, метод обработчика события
 
-        public void StartProcess()
+        public static string[] SortAZ(string[] array)
         {
-            Console.WriteLine("Process Start");
-            OnProcessCompleted();
+            string memory;
+            for (int i = 0; i < array.Length; i++)
+            {
+                for (int k = 0; k < array.Length - 1; k++)
+                {
+                    if (array[i][0] < array[k][0])
+                    {
+                        memory = array[k];
+                        array[k] = array[i];
+                        array[i] = memory;
+                    }
+                }
+            }
+            return array;
         }
 
-        protected virtual void OnProcessCompleted()
+
+        public static string[] SortZA(string[] array)
         {
-            ProcessCompleted?.Invoke();
+            string memory;
+            for (int i = 0; i < array.Length; i++)
+            {
+                for (int k = 0; k < array.Length - 1; k++)
+                {
+                    if (array[i][0] > array[k][0])
+                    {
+                        memory = array[k];
+                        array[k] = array[i];
+                        array[i] = memory;
+                    }
+                }
+            }
+            return array;
+        }
+
+        public void Read()
+        {
+            Console.WriteLine("Введите число 1 или 2");
+            int number = Convert.ToInt32(Console.ReadLine());
+            if (number != 1 && number != 2) throw new MyExeption();
+            string[] names = new string[5];
+            Console.WriteLine("Введите имена");
+            for (int i = 0; i < names.Length; i++)
+            {
+                names[i] = Console.ReadLine();
+            }
+            
+            LastNameEntered(number, names);
+        }
+
+        protected virtual void LastNameEntered(int number, string[] arr)
+        {
+            LastNameReaderEvent?.Invoke(number, arr);
         }
     }
-
-    //класс подписчик
-    //class Program
-    //{
-    //    static void Main(string[] args)
-    //    {
-    //        ProcessLogic processLogic = new ProcessLogic();
-    //        processLogic.ProcessCompleted += processLogic_ProcessCompleted; // регис-ем событие
-    //        processLogic.StartProcess();
-
-    //        Console.ReadLine();
-    //    }
-
-    //    //перехватчик события
-    //    private static void processLogic_ProcessCompleted()
-    //    {
-    //        Console.WriteLine("Process is over");
-    //    }
-    //}
 }

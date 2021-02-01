@@ -8,11 +8,50 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
+            //Пример
+            //var lastNames = new string[5] { "Ostin", "Newel", "Patisson", "Hotter", "Wuizly" };
+
+            SortLastNameReader nameReader = new SortLastNameReader();
+            nameReader.LastNameReaderEvent += ShowNumber;
+
+            try
+            {
+                nameReader.Read();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+
+            Console.WriteLine("-----------------");
+            Console.WriteLine("Просто перечисление исключений");
             IterationExeption.IterationExeptionMethod();
 
-
-
             Console.ReadLine();
+        }
+
+        static void ShowNumber(int number, string[] arr)
+        {
+            switch (number)
+            {
+                case 1:
+                    SortLastNameReader.SortAZ(arr);
+                    Console.WriteLine("Entered 1");
+                    ShowArr(arr);  break;
+                case 2:
+                    SortLastNameReader.SortZA(arr);
+                    Console.WriteLine("Entered 2");
+                    ShowArr(arr); break;
+            }
+        }
+
+        static void ShowArr(string[] arr)
+        {
+            foreach (string s in arr)
+            {
+                Console.WriteLine(s);
+            }
         }
     }
 
@@ -62,15 +101,11 @@ namespace SFApplication.ConsoleApp
         }
     }
 
-    class MyExeption : Exception
+    public class MyExeption : Exception
     {
         public void MyExeptionMethod()
         {
-            Console.WriteLine("Мое исключение");
+            Console.WriteLine("Введите цифру 1 или 2");
         }
     }
-
-
-
-
 }
