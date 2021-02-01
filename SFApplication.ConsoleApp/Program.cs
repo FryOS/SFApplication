@@ -4,44 +4,41 @@ using System.IO;
 
 namespace SFApplication.ConsoleApp
 {
+    public delegate void Notify(); //делегат
+    // класс Издатель(вызывает события)
+    public class ProcessLogic
+    {
+        public event Notify ProcessCompleted; //событие, метод обработчика события
+
+        public void StartProcess()
+        {
+            Console.WriteLine("Process Start");
+            OnProcessCompleted();
+        }
+
+        protected virtual void OnProcessCompleted()
+        {
+            ProcessCompleted?.Invoke();
+        }
+    }
+
+    //класс подписчик
     class Program
     {
-        public delegate Car DelHandler();
-        delegate void LexusHandlerDel(Lexus lexus);
-
-        public static Car CarHandler()
-        {
-            return null;
-        }
-
-        public static Lexus LexusHandler()
-        {
-            return null;
-        }
-
-
         static void Main(string[] args)
         {
-            DelHandler delHandler = CarHandler;
-
-            LexusHandlerDel lexusHandler = GetCarInfo;
-            lexusHandler.Invoke(new Lexus());
+            ProcessLogic processLogic = new ProcessLogic();
+            processLogic.ProcessCompleted += processLogic_ProcessCompleted; // регис-ем событие
+            processLogic.StartProcess();
 
             Console.ReadLine();
         }
 
-        public static void GetCarInfo(Car car)
+        //перехватчик события
+        private static void processLogic_ProcessCompleted()
         {
-            Console.WriteLine(car.GetType());
+            Console.WriteLine("Process is over");
         }
-
-        private static void Method1()
-        {
-
-        }
-
     }
 
-    class Car { }
-    class Lexus : Car { }
 }
