@@ -8,11 +8,13 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var messenger = new NewMessenger();
+            IWriter writer = new FileManager();
+            IReader reader = new FileManager();
+            IMailer mailer = new FileManager();
 
-            ((IWhatsApp)messenger).SendMessage("IWhatsApp");
-            ((IWhatsApp)messenger).SendMessage("IViber");
-            
+            writer.WriteFile("writer");
+            reader.ReadFile("reader");
+            mailer.SendFile("mailer");
 
             Console.ReadLine();
         }
@@ -21,24 +23,32 @@ namespace SFApplication.ConsoleApp
     }
 
 
-    public interface IWhatsApp
+    public interface IWriter
     {
-        void SendMessage(string message);
+        void WriteFile(string message);
+    }
+    public interface IReader
+    {
+        void ReadFile(string message);
+    }
+    public interface IMailer
+    {
+        void SendFile(string message);
     }
 
-    public interface IViber
+    public class FileManager : IWriter, IReader, IMailer
     {
-        void SendMessage(string message);
-    }
-
-    public class NewMessenger : IWhatsApp, IViber
-    {
-        void IWhatsApp.SendMessage(string message)
+        void IReader.ReadFile(string message)
         {
             Console.WriteLine(message);
         }
 
-        void IViber.SendMessage(string message)
+        void IMailer.SendFile(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        void IWriter.WriteFile(string message)
         {
             Console.WriteLine(message);
         }
