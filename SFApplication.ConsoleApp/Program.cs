@@ -49,11 +49,33 @@ namespace SFApplication.ConsoleApp
             var phoneBook = new List<Contact>();
             AddUnique(new Contact("alex", 8888, "alex@oa.ru"), phoneBook);
 
-            
-            
+            GetCountChar();
+
+
+
+
 
             Console.ReadLine();
 
+        }
+
+        static void GetCountChar()
+        {
+            // Сохраняем предложение в строку
+            var sentence =
+                "Подсчитайте, сколько уникальных символов в этом предложении, используя HashSet<T>, учитывая знаки препинания, но не учитывая пробелы в начале и в конце предложения.";
+
+            // сохраняем в массив char
+            var characters = sentence.ToCharArray();
+
+            var symbols = new HashSet<char>();
+
+            // добавляем во множество. Сохраняются только неповторяющиеся символы
+            foreach (var symbol in characters)
+                symbols.Add(symbol);
+
+            // Выводим результат
+            Console.WriteLine(symbols.Count);
         }
 
         static void AddUnique(Contact newContact, List<Contact> phoneBook)
