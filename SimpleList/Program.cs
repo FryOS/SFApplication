@@ -26,7 +26,6 @@ namespace SimpleList
             Console.WriteLine($"Вставка в List: {watchLinked.Elapsed.TotalMilliseconds}  мс");
 
             Console.ReadLine();
-
         }
     }
 }
