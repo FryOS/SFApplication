@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using Telegram.Bot;
-using Telegram.Bot.Args;
+using System.Linq;
+
+
 
 namespace SFApplication.ConsoleApp
 {
@@ -13,23 +10,27 @@ namespace SFApplication.ConsoleApp
     {
         static void Main(string[] args)
         {
-            // читаем весь файл в строку 
-            string text = File.ReadAllText(@"C:\Users\Alexey\source\repos\SFApplication\SFApplication.ConsoleApp\Text.txt");
-            // разбиваем в массив, используя пробел в качестве разделителя
-            var words = text.Split(new char[] { ' ' }).Length;
+            var objects = new List<object>()
+                {
+                   1,
+                   "Сергей ",
+                   "Андрей ",
+                   300,
+                };
 
-            // выводим количество
-            Console.WriteLine(words);
+            var list = from p in objects
+                       where p is string
+                       orderby p
+                        select p;
+            foreach (var item in list)
+            {
+                Console.WriteLine(item) ;
+            }
 
-            // запускаем новый таймер
-            var stopWatch = Stopwatch.StartNew();
-
-            // выполняем операцию
-            var result = 50063 / 834;
-
-            // смотрим, сколько операция заняла, в миллисекундах
-            Console.WriteLine(stopWatch.Elapsed.TotalMilliseconds);
-
+            foreach (var item in objects.Where(p => p is string).OrderBy(p => p))
+            {
+                Console.WriteLine(item);
+            }
 
             Console.ReadLine();
 
