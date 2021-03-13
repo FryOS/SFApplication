@@ -61,11 +61,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculatorTests.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="Tests\CalculatorTests.cs" />
+    <Compile Include="Tests\Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TicketPriceTests.cs" />
-    <Compile Include="TicketServiceTests.cs" />
+    <Compile Include="Tests\TicketPriceTests.cs" />
+    <Compile Include="Tests\TicketServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
