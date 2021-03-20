@@ -28,6 +28,11 @@ namespace Task1
             {
                 return one + two;
             }
+
+            public int Miltiplication(int a, int b)
+            {
+                return a * b;
+            }
         }
 
         public class Ticket
@@ -55,6 +60,13 @@ namespace Task1
                 var ticket = FakeBaseData.FirstOrDefault(t => t.Id == ticketId);
                 return (ticket is null) ?
                    throw new TicketNotFoundException() : ticket.Id;
+            }
+
+            public Ticket GetTicket(int ticketId)
+            {
+                var ticket = FakeBaseData.FirstOrDefault(t => t.Id == ticketId);
+                return (ticket is null) ?
+                  throw new TicketNotFoundException() : ticket;
             }
 
             private IEnumerable<Ticket> FakeBaseData

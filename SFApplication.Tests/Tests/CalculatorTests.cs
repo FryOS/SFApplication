@@ -16,6 +16,14 @@ namespace SFApplication.Tests
         }
 
         [Test]
+        public void SubtractionMustMultAndreturnCorrectValue()
+        {
+            var calculator = new Calculator();
+
+            Assert.AreEqual(8, calculator.Miltiplication(4, 2));
+        }
+
+        [Test]
         public void DivisionMustDivAndreturnCorrectValue()
         {
             var calculator = new Calculator();

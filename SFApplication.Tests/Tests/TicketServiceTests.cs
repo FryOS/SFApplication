@@ -14,6 +14,13 @@ namespace SFApplication.Tests
         }
 
         [Test]
+        public void GetTicketMustReturnNotNullableTicket()
+        {
+            var ticketServiceTest = new TicketService();
+            Assert.IsNotNull(ticketServiceTest.GetTicket(1));
+        }
+
+        [Test]
         public void GeTicketPriceMustThrowException()
         {
             var ticketServiceTest = new TicketService();
