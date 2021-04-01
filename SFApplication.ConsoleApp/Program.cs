@@ -8,119 +8,98 @@ namespace Task1
     {
         static void Main(string[] args)
         {
-           
+            var account  = new Account() { Type = "Обычный", Balance = 2 };
+            var simpelSal = new CalculatorSimple();
+            var salarySal = new CalculatorSalary();
+            
+
+            var result = new CalculationResult();
+            result.Result(simpelSal.CalculateInterest(account));
+            result.Result(salarySal);
+
             Console.ReadKey();
         }
 
-        public class Calculator
+        public class Account
         {
-            public int Subtraction(int a, int b)
-            {
-                return a - b;
-            }
+            // тип учетной записи
+            public string Type { get; set; }
 
-            public int Division(int a, int b)
-            {
-                return a / b;
-            }
+            // баланс учетной записи
+            public double Balance { get; set; }
 
-            public int Add(int one, int two)
-            {
-                return one + two;
-            }
-
-            public int Miltiplication(int a, int b)
-            {
-                return a * b;
-            }
+            // процентная ставка
+            public double Interest { get; set; }
         }
 
-        public class Ticket
+        #region Старый Calculator
+        public static class Calculator
         {
-            public int Id { get; }
-            public string Description { get; }
-            public int Price { get; }
-
-            public Ticket(int id, string description, int price)
+            // Метод для расчета процентной ставки
+            public static void CalculateInterest(Account account)
             {
-                this.Id = id;
-                this.Description = description;
-                this.Price = price;
-            }
-        }
-        public interface ITicketService
-        {
-            int GetTicketPrice(int ticketId);
-        }
-
-        public class TicketService : ITicketService
-        {
-            public int GetTicketPrice(int ticketId)
-            {
-                var ticket = FakeBaseData.FirstOrDefault(t => t.Id == ticketId);
-                return (ticket is null) ?
-                   throw new TicketNotFoundException() : ticket.Id;
-            }
-
-            public Ticket GetTicket(int ticketId)
-            {
-                var ticket = FakeBaseData.FirstOrDefault(t => t.Id == ticketId);
-                return (ticket is null) ?
-                  throw new TicketNotFoundException() : ticket;
-            }
-
-            private IEnumerable<Ticket> FakeBaseData
-            {
-                get
+                if (account.Type == "Обычный")
                 {
-                    return new List<Ticket>
-                    {
-                        new Ticket(1, "Москва - Санкт-Петербург", 3500),
-                        new Ticket(2, "Челябинск - Магадан", 3500),
-                        new Ticket(3, "Норильск - Уфа", 3500)
-                    };
+                    // расчет процентной ставки обычного аккаунта по правилам банка
+                    account.Interest = account.Balance * 0.4;
+
+                    if (account.Balance < 1000)
+                        account.Interest -= account.Balance * 0.2;
+
+                    if (account.Balance < 50000)
+                        account.Interest -= account.Balance * 0.4;
+                }
+                else if (account.Type == "Зарплатный")
+                {
+                    // расчет процентной ставк зарплатного аккаунта по правилам банка
+                    account.Interest = account.Balance * 0.5;
                 }
             }
+        }
+        #endregion
 
+        public interface ICalculateInterest
+        {
+            void CalculateInterest(Account account);
         }
 
-        public class TicketNotFoundException : Exception
+        public class CalculatorSimple : ICalculateInterest
         {
-        }
-
-        public class TicketPrice
-        {
-            ITicketService ticketService;
-            public TicketPrice(ITicketService ticketService)
+            public void CalculateInterest(Account account)
             {
-                this.ticketService = ticketService;
-            }
+                if (account.Type == "Обычный")
+                {
+                    // расчет процентной ставки обычного аккаунта по правилам банка
+                    account.Interest = account.Balance * 0.4;
 
-            public int MakeTicketPrice(int ticketId)
-            {
-                return ticketService.GetTicketPrice(ticketId);
-            }
-        }
+                    if (account.Balance < 1000)
+                        account.Interest -= account.Balance * 0.2;
 
-        public class UserRepository : IUserRepository
-        {
-            public IEnumerable<User> FindAll()
-            {
-                return null;
+                    if (account.Balance < 50000)
+                        account.Interest -= account.Balance * 0.4;
+                }
             }
         }
 
-        public interface IUserRepository
+        public class CalculatorSalary : ICalculateInterest
         {
-            IEnumerable<User> FindAll();
+            public void CalculateInterest(Account account)
+            {
+                if (account.Type == "Зарплатный")
+                {
+                    // расчет процентной ставк зарплатного аккаунта по правилам банка
+                    account.Interest = account.Balance * 0.5;
+                }
+            }
         }
 
-        public class User
+        public class CalculationResult
         {
-            public string Name
+            Account account { get; set; }
+            public string Result(ICalculateInterest calculateInterest)
             {
-                get;
-                set;
+                calculateInterest.CalculateInterest(account);
+                return account.Interest.ToString();
             }
         }
     }
