@@ -9,13 +9,19 @@ namespace Task1
         static void Main(string[] args)
         {
             var account  = new Account() { Type = "Обычный", Balance = 2 };
+            var account1  = new Account() { Type = "Зарплатный", Balance = 2 };
             var simpelSal = new CalculatorSimple();
             var salarySal = new CalculatorSalary();
             
 
-            var result = new CalculationResult();
-            result.Result(simpelSal.CalculateInterest(account));
-            result.Result(salarySal);
+            var result = new CalculationResult(account);
+            var result1 = new CalculationResult(account1);
+            var simpleResult = result.Result(simpelSal);
+            var salaryResult = result1.Result(salarySal);
+
+
+            Console.WriteLine(simpleResult);
+            Console.WriteLine(salaryResult);
 
             Console.ReadKey();
         }
@@ -95,11 +101,16 @@ namespace Task1
 
         public class CalculationResult
         {
-            Account account { get; set; }
+            private readonly Account _account;
+
+            public CalculationResult(Account account)
+            {
+                _account = account;
+            }
             public string Result(ICalculateInterest calculateInterest)
             {
-                calculateInterest.CalculateInterest(account);
-                return account.Interest.ToString();
+                calculateInterest.CalculateInterest(_account);
+                return _account.Interest.ToString();
             }
         }
     }
