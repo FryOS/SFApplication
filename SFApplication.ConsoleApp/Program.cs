@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Task1
 {
@@ -8,111 +9,120 @@ namespace Task1
     {
         static void Main(string[] args)
         {
-            var account  = new Account() { Type = "Обычный", Balance = 2 };
-            var account1  = new Account() { Type = "Зарплатный", Balance = 2 };
-            var simpelSal = new CalculatorSimple();
-            var salarySal = new CalculatorSalary();
-            
+            Console.OutputEncoding = Encoding.UTF8;
 
-            var result = new CalculationResult(account);
-            var result1 = new CalculationResult(account1);
-            var simpleResult = result.Result(simpelSal);
-            var salaryResult = result1.Result(salarySal);
+            // Объект завода, который будет заниматься производством
+            var carPlant = new CarPlant();
 
-
-            Console.WriteLine(simpleResult);
-            Console.WriteLine(salaryResult);
+            Conveyor builder = new CarConveyor();
+            builder = new CarConveyor();
+            carPlant.Construct(builder);
+            builder.Product.Show();
 
             Console.ReadKey();
         }
 
-        public class Account
+
+    }
+
+    class Product
+    {
+        private string _type;
+
+        // составные части
+        private Dictionary<string, string> _parts = new Dictionary<string, string>();
+        /// <summary>
+        ///  Метод - конструктор
+        /// </summary>
+        public Product(string type)
         {
-            // тип учетной записи
-            public string Type { get; set; }
-
-            // баланс учетной записи
-            public double Balance { get; set; }
-
-            // процентная ставка
-            public double Interest { get; set; }
+            _type = type;
         }
-
-        #region Старый Calculator
-        public static class Calculator
+        // Индексатор
+        public string this[string key]
         {
-            // Метод для расчета процентной ставки
-            public static void CalculateInterest(Account account)
+            set
             {
-                if (account.Type == "Обычный")
-                {
-                    // расчет процентной ставки обычного аккаунта по правилам банка
-                    account.Interest = account.Balance * 0.4;
-
-                    if (account.Balance < 1000)
-                        account.Interest -= account.Balance * 0.2;
-
-                    if (account.Balance < 50000)
-                        account.Interest -= account.Balance * 0.4;
-                }
-                else if (account.Type == "Зарплатный")
-                {
-                    // расчет процентной ставк зарплатного аккаунта по правилам банка
-                    account.Interest = account.Balance * 0.5;
-                }
+                _parts[key] = value;
             }
         }
-        #endregion
-
-        public interface ICalculateInterest
+        /// <summary>
+        /// Метод для получения информации о продукте
+        /// </summary>
+        public void Show()
         {
-            void CalculateInterest(Account account);
-        }
-
-        public class CalculatorSimple : ICalculateInterest
-        {
-            public void CalculateInterest(Account account)
-            {
-                if (account.Type == "Обычный")
-                {
-                    // расчет процентной ставки обычного аккаунта по правилам банка
-                    account.Interest = account.Balance * 0.4;
-
-                    if (account.Balance < 1000)
-                        account.Interest -= account.Balance * 0.2;
-
-                    if (account.Balance < 50000)
-                        account.Interest -= account.Balance * 0.4;
-                }
-            }
-        }
-
-        public class CalculatorSalary : ICalculateInterest
-        {
-            public void CalculateInterest(Account account)
-            {
-                if (account.Type == "Зарплатный")
-                {
-                    // расчет процентной ставк зарплатного аккаунта по правилам банка
-                    account.Interest = account.Balance * 0.5;
-                }
-            }
-        }
-
-        public class CalculationResult
-        {
-            private readonly Account _account;
-
-            public CalculationResult(Account account)
-            {
-                _account = account;
-            }
-            public string Result(ICalculateInterest calculateInterest)
-            {
-                calculateInterest.CalculateInterest(_account);
-                return _account.Interest.ToString();
-            }
+            Console.WriteLine();
+            Console.WriteLine($"Вид транспортного средства: {_type}");
+            Console.WriteLine($" Рама : {_parts["frame"]}");
+            Console.WriteLine($" Двигатель : {_parts["engine"]}");
+            Console.WriteLine($" Колеса: {_parts["wheels"]}");
+            Console.WriteLine($" Двери : {_parts["doors"]}");
         }
     }
+
+    /// <summary>
+    /// Абстрактный класс строителя
+    /// </summary>
+    abstract class Conveyor
+    {
+        protected Product _product;
+
+        public Product Product
+        {
+            get { return _product; }
+        }
+        // Методы для постройки составных частей
+
+        public abstract void BuildFrame();
+        public abstract void BuildEngine();
+        public abstract void BuildWheels();
+        public abstract void BuildDoors();
+    }
+
+    /// <summary>
+    /// Автомобильный завод
+    /// </summary>
+    class CarPlant
+    {
+        /// <summary>
+        /// Запуск процесса постройки
+        /// </summary>
+        public void Construct(Conveyor conveyor)
+        {
+            conveyor.BuildFrame();
+            conveyor.BuildEngine();
+            conveyor.BuildWheels();
+            conveyor.BuildDoors();
+        }
+    }
+
+    class CarConveyor : Conveyor
+    {
+        public CarConveyor()
+        {
+            _product = new Product("Автомобиль");
+        }
+
+        public override void BuildFrame()
+        {
+            _product["frame"] = "Рама автомобиля";
+        }
+
+        public override void BuildEngine()
+        {
+            _product["engine"] = "150 л.с.";
+        }
+
+        public override void BuildWheels()
+        {
+            _product["wheels"] = "4";
+        }
+
+        public override void BuildDoors()
+        {
+            _product["doors"] = "4";
+        }
+    }
+
 }
 
