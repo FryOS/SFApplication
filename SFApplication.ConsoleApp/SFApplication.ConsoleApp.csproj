@@ -49,8 +49,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="CalculationResult.cs" />
+    <Compile Include="CalculatorSalary.cs" />
+    <Compile Include="CalculatorSimple.cs" />
+    <Compile Include="ICalculateInterest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MyType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
