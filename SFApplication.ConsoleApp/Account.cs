@@ -8,10 +8,10 @@ namespace SFApplication.ConsoleApp
 {
     public class Account
     {
-        public Account(MyType _type, double _balanse)
+        public Account(MyType type, double balanse)
         {
-            _type = Type;
-            _balanse = Balance;
+            Type = type;
+            Balance = balanse;
         }
         // тип учетной записи
         public MyType Type { get; set; }
